@@ -1,0 +1,40 @@
+.input-wrapper {
+    position: relative;
+    margin-bottom: 1.5rem; /* 24px */
+  }
+  
+  .input-icon-wrapper {
+    position: absolute;
+    inset: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    padding-left: 0.75rem; /* 12px */
+    pointer-events: none;
+  }
+  
+  .input-icon {
+    font-size: 1.25rem; /* 20px */
+    color: #34d399; /* Green color */
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 0.5rem 0.75rem 0.5rem 2.5rem; /* 10px 12px 10px 40px */
+    background-color: rgba(31, 41, 55, 0.8); /* Darker background with opacity */
+    border-radius: 8px; /* Rounded corners */
+    border: 1px solid #374151; /* Border color */
+    color: white;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+  .input-field:focus {
+    border-color: #34d399; /* Green color on focus */
+    outline: none;
+    box-shadow: 0 0 0 2px #34d399; /* Green outline */
+  }
+  
+  .input-field::placeholder {
+    color: #9ca3af; /* Placeholder color */
+  }
+  

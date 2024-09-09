@@ -1,0 +1,323 @@
+import React, { useEffect, useState } from 'react';
+import { saveAs } from 'file-saver';
+import { useNavigate } from 'react-router-dom';
+import "./Quiz.css";
+
+function Quiz() {
+  const [questions, setQuestions] = useState([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [score, setScore] = useState(0);
+  const [selectedAnswers, setSelectedAnswers] = useState([]);
+  const [shuffledAnswers, setShuffledAnswers] = useState([]);
+  const [isAnswered, setIsAnswered] = useState(false);
+  const [correctAnswer, setCorrectAnswer] = useState('');
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchedQuestions = JSON.parse(localStorage.getItem("triviaQuestions")) || [];
+    const savedScore = parseInt(localStorage.getItem("score")) || 0;
+
+    if (fetchedQuestions.length > 0) {
+      setQuestions(fetchedQuestions);
+      setScore(savedScore);
+    }
+    setLoading(false);
+  }, []);
+
+  // useEffect(() => {
+  //   const fetchQuestions = async () => {
+  //     try {
+  //       const response = await fetch('http://localhost:5000/api/questions');
+  //       const data = await response.json();
+  //       setQuestions(data);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       console.error('Failed to fetch questions', error);
+  //       setLoading(false);
+  //     }
+  //   };
+  
+  //   fetchQuestions();
+  // }, []);
+  
+
+  useEffect(() => {
+    if (questions.length > 0) {
+      shuffleAnswers();
+      setIsAnswered(false);
+      setCorrectAnswer(questions[currentQuestionIndex].correct_answer);
+    }
+  }, [currentQuestionIndex, questions]);
+
+  const shuffleAnswers = () => {
+    if (questions.length > 0) {
+      const currentQuestion = questions[currentQuestionIndex];
+      const answers = [...currentQuestion.incorrect_answers, currentQuestion.correct_answer];
+      setShuffledAnswers(answers.sort(() => Math.random() - 0.5));
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (questions.length === 0) {
+    return <div>No questions available</div>;
+  }
+
+  const handleNext = () => {
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
+  };
+
+  // const handleBack = () => {
+  //   if (currentQuestionIndex > 0) {
+  //     setCurrentQuestionIndex(currentQuestionIndex - 1);
+  //   }
+  // };
+
+  const checkAnswer = (selectedAnswer) => {
+    if (isAnswered) return;
+
+    const isCorrect = selectedAnswer === correctAnswer;
+    if (isCorrect) {
+      setScore(score + 1);
+    }
+
+    setSelectedAnswers((prevAnswers) => {
+      const updatedAnswers = [...prevAnswers];
+      updatedAnswers[currentQuestionIndex] = selectedAnswer;
+      return updatedAnswers;
+    });
+  
+      setIsAnswered(true);
+    // if (isAnswered) return;
+
+    // const currentQuestion = questions[currentQuestionIndex];
+    // const isCorrect = selectedAnswer === currentQuestion.correct_answer;
+    // if (isCorrect) {
+    //   setScore(score + 1);
+    // }
+
+    // setSelectedAnswers((prevAnswers) => {
+    //   const updatedAnswers = [...prevAnswers];
+    //   updatedAnswers[currentQuestionIndex] = selectedAnswer;
+    //   console.log(updatedAnswers);
+      
+    //   return updatedAnswers;
+    // });
+
+    // setIsAnswered(true);
+  };
+
+  // const handleSave = () => {
+  //   const blob = new Blob([JSON.stringify(selectedAnswers)], { type: "application/json" });
+  //   saveAs(blob, "selectedAnswers.json");
+  //   alert("Answers saved to file!");
+  // };
+
+  const handleSubmit = () => {
+    localStorage.setItem("selectedAnswers", JSON.stringify(selectedAnswers));
+    localStorage.setItem("score", score);
+    localStorage.setItem("triviaQuestionsCount", questions.length); // Ensure this matches
+    navigate("/result");
+  };
+  
+  
+
+  const currentQuestion = questions[currentQuestionIndex];
+
+  return (
+    <div className='container'>
+      <h1>Quiz-app</h1>
+      <hr />
+      <h2 dangerouslySetInnerHTML={{ __html: currentQuestion.question }}></h2>
+      <ul>
+        {shuffledAnswers.map((answer, index) => (
+          <li
+            key={index}
+            onClick={() => checkAnswer(answer)}
+            className={`answer-option ${isAnswered ? "disabled" : ""}`}
+          >
+            {answer}
+          </li>
+        ))}
+      </ul>
+
+      <div className='buttons-container'>
+        {/* <button onClick={handleBack} disabled={currentQuestionIndex === 0}>Back</button> */}
+        {/* <button onClick={handleSave}>Save</button> */}
+        {currentQuestionIndex < questions.length - 1 ? (
+          <button onClick={handleNext} disabled={currentQuestionIndex === questions.length - 1}>Next</button>
+        ) : (
+          <button onClick={handleSubmit}>Submit</button>
+        )}
+      </div>
+
+      <div className='question-index'>
+        {currentQuestionIndex + 1} of {questions.length}
+      </div>
+    </div>
+  );
+}
+
+export default Quiz;
+
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #0e0d0d;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quiz-container {
+  width: 100vw;  /* Full width */
+  height: 100vh; /* Full height */
+  background: linear-gradient(to right, #34d39989, #187149);
+  color: rgb(220, 204, 204);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 40px;
+  box-sizing: border-box;
+  overflow: hidden; /* Prevent overflow */
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 1.2em;
+  text-align: center;
+  margin: 10px 0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto; /* Allow scrolling if content is too tall */
+  max-height: 300px; /* Limit the height of the answer list */
+  flex-grow: 1; /* Allow the list to grow and fill space */
+}
+
+.answer-option {
+  padding: 10px 15px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.answer-option:hover {
+  background-color: #f0f0f0;
+} 
+.answer-option {
+  background-color: #374151; /* Darker background color */
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  color: #e5e7eb; /* Light text color */
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+
+
+.answer-option.correct {
+  background-color: #10b981; /* Green for correct answer */
+  color: #fff; /* White text color */
+}
+
+.answer-option.incorrect {
+  background-color: #ef4444; /* Red for incorrect answer */
+  color: #fff; /* White text color */
+  pointer-events: none; /* Disable further clicks */
+}
+
+.correct {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.incorrect {
+  background-color: #f44336;
+  color: white;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Added margin for spacing */
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.question-index {
+  text-align: center;
+  font-size: 1.1em;
+}
+
+
+.toggle-button {
+  background: none;
+  border: none;
+  color: #007BFF;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  margin-left: 5px;
+  font-size: 1em;
+}
+
+.toggle-button:hover {
+  color: #0056b3;
+}
+
+.answer-option {
+  padding: 10px 25px;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 8px;
+  border: 2px solid rgb(26, 12, 12);
+  background: linear-gradient(to right, #5e5ed0, #514c85); /* Background gradient */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s; /* Change this to 'background' */
+}
+
+.answer-option:hover {
+  background: #4b5563; /* Override the entire background */
+}

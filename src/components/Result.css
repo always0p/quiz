@@ -1,0 +1,114 @@
+/* Result.css */
+
+
+
+
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to right, #5e5ed0, #514c85);
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 100vw;  /* Full width */
+  height: 100vh; /* Full height */
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color:#514c85;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    font-size: 2rem;
+    text-align: center;
+    color: #000000;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    color: #000000;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  hr {
+    margin: 20px 0;
+    border: none; /* Remove default border */
+    height: 1px; /* Set height to make it a line */
+    background-color: #000000; /* Set color of the horizontal line */
+}
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 20px;
+    padding: 15px;
+    border:3px solid #000000;
+    border-radius: 6px;
+    background: linear-gradient(to left, #5e5ed0, #514c85);
+  }
+  
+  h3 {
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #000000;
+  }
+  
+  p {
+    font-weight: 100;
+    font-size: medium;
+    color: #000000;
+  }
+  
+  strong.correct {
+    color: rgb(42, 171, 42);
+  }
+  
+  strong.incorrect {
+    color: rgb(220, 91, 91);
+  }
+  
+  .navigation-buttons {
+    display: flex; /* Enables Flexbox */
+    justify-content:space-around; /* Spaces buttons apart */
+    align-items: center; /* Centers the buttons vertically */
+    width: 100%; /* Full width for the container */
+    margin-top: 1rem; /* Adds some margin to the top */
+    margin-bottom: 100rem;
+    padding-bottom: 5rem ;
+    margin-top: 2rem;
+  }
+
+ button {
+  background: #444;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  border: none;
+  letter-spacing: 0.2rem;
+  font-size: 2rem;
+  padding: 2rem 6rem;
+  transition: 0.2s;
+  cursor: pointer; /* Adds a pointer cursor on hover */
+}
+  
+  button:hover {
+    letter-spacing: 0.2rem;
+    padding: 1.1rem 3.1rem;
+    background: var(--clr);
+    color: var(--clr);
+    /* box-shadow: 0 0 35px var(--clr); */
+    animation: box 3s infinite;
+  }
+  

@@ -1,0 +1,105 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(to right, #5e5ed0, #514c85);
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.signup-container {
+  max-width: 100rem; /* max-w-md */
+    width: 100%;
+    background-color: rgba(31, 41, 55, 0.5); /* bg-gray-800 with opacity */
+    backdrop-filter: blur(10px); /* backdrop-filter and backdrop-blur-xl */
+    border-radius: 1.25rem; /* rounded-2xl */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-xl */
+    overflow: hidden; /* overflow-hidden */
+    padding: 2rem; /* p-8 */
+  }
+  
+  .signup-content {
+    padding: 2rem;
+  }
+  
+  .signup-title {
+    font-size: 1.875rem; /* text-3xl */
+    font-weight: 700; /* font-bold */
+    margin-bottom: 1.5rem; /* mb-6 */
+    text-align: center; /* text-center */
+    background: linear-gradient(to right, #c6c6f6, #514c85);/* bg-gradient-to-r from-green-400 to-emerald-500 */
+    color: transparent; /* text-transparent */
+    background-clip: text; /* bg-clip-text */
+  }
+  
+  .error-message {
+    color: #f87171;
+    font-weight: 600;
+    margin-top: 0.5rem;
+  }
+  
+  .signup-button {
+    margin-top: 1.25rem;
+    width: 100%;
+    padding: 0.75rem;
+    background: linear-gradient(to right, #5e5ed0, #514c85);
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.2s, transform 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .signup-button:hover {
+    background:  linear-gradient(to right, #5e5ed0, #514c85);
+  }
+  
+  .signup-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #5e5ed0, 0 0 0 4px rgba(31, 41, 55, 0.9);
+  }
+  
+  .signup-button:disabled {
+    background: #6b7280;
+    cursor: not-allowed;
+  }
+  
+  .loader-icon {
+    animation: spin 1s linear infinite;
+  }
+  
+  .signup-footer {
+    padding: 1rem 2rem;
+    background-color: rgba(17, 24, 39, 0.8);
+    text-align: center;
+  }
+  
+  .signup-footer p {
+    color: #9ca3af;
+    font-size: 0.875rem;
+  }
+  
+  .login-link {
+    color: #5e5ed0;
+    text-decoration: none;
+  }
+  
+  .login-link:hover {
+    text-decoration: underline;
+  }
+  
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
